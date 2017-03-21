@@ -1,0 +1,29 @@
+SWAP - P2: Replicar máquinas
+
+1) scp (ssh)
+  scp arch.zip user@ipm2:/tmp/
+  passwd...
+
+  PROBLEMA: hay que teclear clave para cada cambio,
+  y tener a un admin esperando para teclear dicha
+  clave.
+
+  Con archivos pequeños tardamos poco, pero con un
+  espacio web muy grande (muchos GiBs) ocuparemos
+  mucho ancho de banda de la red local.
+
+  tar cvf - carpeta | ssh user@ipm2 `cat > /tmp/arch.tgz`
+
+
+2) copias incrementales (rsync)
+  rsync -avz -e ssh user@ipm1:/var/www/ /var/www/
+
+3) config ssh sin clave
+
+4) crontab
+  programar un cron que ejecute rsync, que ya no nos pedirá
+  clave ssh, por los pasos anteriores.
+
+
+GENERAR ARCHIVO MARKDOWN CON EL MINI-PROCESO QUE VAMOS
+SIGUIENDO. INCLUIR CAPTURA DE PANTALLA
