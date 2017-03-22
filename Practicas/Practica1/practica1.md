@@ -20,3 +20,25 @@ que utilicemos a continuación para verificar que existe conexión y acceso entr
 ambos. Veamos la solicitud y respuesta de cada una con el protocolo ```ping```:
 
 ![CapturaPing](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practicas/Practica1/CapturaPing.png)
+
+Para terminar, queremos ver que nuestras máquinas están realmente sirviendo páginas
+web, por lo que crearemos un documento HTML en ambas, situándolo en el archivo ```/var/www/html/hola.html```, con el siguiente contenido (sustituyendo X por el
+número correspondiente a la máquina):
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Probando... 1,2,3...</title>
+  </head>
+  <body>
+    <h1>Soy la máquina X, y ¡esto funciona!</h1>
+  </body>
+</html>
+```
+
+Por último, utilizaremos el comando ```curl http://IP_SERVIDOR/hola.html``` para
+descargar el archivo HTML ofrecido por la máquina que deseemos. Ésto es, desde la
+máquina 1 accederemos al servicio HTML de la 2, y viceversa. Terminemos con una
+muestra gráfica:
+
+![SirviendoHTML](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practicas/Practica1/SirviendoHTML.png)
