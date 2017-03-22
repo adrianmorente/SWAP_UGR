@@ -19,4 +19,4 @@ Además, con ```ifconfig``` listamos las direcciones IP de cada host, que será 
 que utilicemos a continuación para verificar que existe conexión y acceso entre
 ambos. Veamos la solicitud y respuesta de cada una con el protocolo ```ping```:
 
-![CapturaComprobacionConexion](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practicas/Practica1/CapturaComprobacionConexion.png)
+![CapturaPing](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practicas/Practica1/CapturaPing.png)
