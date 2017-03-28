@@ -21,14 +21,18 @@ En este caso, la dirección IP del servidor 1 es ```10.0.2.15``` como vimos en l
 La conexión vía SSH entre máquinas es muy fácil y segura, pero en ciertos casos nos resultará más cómodo configurar dicho servicio de forma que no tengamos que introducir la contraseña en cada una de las conexiones que realicemos. De esta forma, cuando realicemos copias de seguridad y clonados de ficheros entre máquinas, no tendremos la necesidad de introducir la contraseña; lo que resultará muy útil cuando programemos tareas de este tipo.
 
 Para hacer esto, utilizamos comandos integrados en la herramienta SSH, como lo son ```ssh-keygen``` para generar un par de claves pública-privada, y ```ssh-copy-id``` para transferir dichas claves al servidor con el que asociarnos. El proceso es el siguiente:
+
 1 - Creación del par clave pública-privada en la máquina nº2.
 ```bash
 ssh-keygen -b 4096 -t rsa
 ```
-2 - Copiado de la clave privada en la otra máquina.
+2 - Copiado de la clave privada en la otra máquina (ya sea mediante dirección IP o mediante el nombre del host, como será en nuestro caso).
 ```bash
 ssh-copy-id SWAP-1
 ```
+
+Y eso es todo. Como hemos realizado esta configuración desde el usuario root, ahora podemos acceder como superusuario al servidor sin introducir la clave SSH. Terminemos con una demostración gráfica.
+![Comprobacion]
 
 
 ### 4 - Mantenimiento actualizado de /var/www con crontab
