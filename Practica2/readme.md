@@ -14,7 +14,7 @@ rsync -avz -e ssh root@IP_SERVIDOR_1:/var/www/ /var/www/
 ```
 En este caso, la dirección IP del servidor 1 es ```10.0.2.15``` como vimos en la práctica 1. Una vez visto el comando a ejecutar, comprobemos su funcionamiento en la siguiente captura de pantalla. En ella podemos apreciar cómo cambia el contenido del fichero ```index.html``` en la máquina 2, pasando a tener el contenido del fichero con mismo nombre en la máquina 1:
 
-![2ClonadoRsync](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practicas/Practica2/images/2ClonadoRsync.png)
+![2ClonadoRsync](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/2ClonadoRsync.png)
 
 
 ### 3 - Configuración de SSH para acceso sin contraseña
