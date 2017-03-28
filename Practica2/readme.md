@@ -32,7 +32,8 @@ ssh-copy-id SWAP-1
 ```
 
 Y eso es todo. Como hemos realizado esta configuración desde el usuario root, ahora podemos acceder como superusuario al servidor sin introducir la clave SSH. Terminemos con una demostración gráfica.
-![Comprobacion]
+
+![ComprobacionSSHsinContraseña.png](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/ComprobacionSSHsinContraseña.png)
 
 
 ### 4 - Mantenimiento actualizado de /var/www con crontab
