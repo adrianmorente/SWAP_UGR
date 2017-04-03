@@ -4,7 +4,11 @@
 Comenzamos la práctica con la instalación de ```rsync```, herramienta que utilizaremos para realizar copias de seguridad incrementales entre nuestras máquinas. En nuestra versión de Ubuntu Server (16.10) ya vendrá instalado por defecto. A continuación, configuraremos el servicio SSH para permitir el acceso root entre ambas, accediendo al fichero de configuración de SSH ubicado en ```/etc/ssh/sshd_config``` y modificando su contenido (PermitRootLogin yes).
 
 ### 1 - Copia de archivos por SSH
-Tras ajustar la configuración del servicio ```ssh``` arriba mencionado, podremos utilizar la herramienta ```scp``` para la copia de archivos vía Secure SHell entre dos máquinas.
+Tras ajustar la configuración del servicio ```ssh``` arriba mencionado, podremos utilizar el siguiente comando para realizar un clonado del directorio web en la máquina servidora número 1. El mecanismo se basa en la compresión de dicho directorio y su inmediata transmisión vía ssh. Acto seguido, se imprime su contenido para demostrar su funcionamiento:
+```bash
+tar zcvf - /var/www/ | ssh adrian@SWAP-1 "cat > ~/bk.tgz"
+```
+![CopiaArchivosSSH](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/CopiaArchivosSSH.png)
 
 
 ### 2 - Clonado de una carpeta entre dos máquinas
@@ -14,7 +18,7 @@ rsync -avz -e ssh root@IP_SERVIDOR_1:/var/www/ /var/www/
 ```
 En este caso, la dirección IP del servidor 1 es ```10.0.2.15``` como vimos en la práctica 1. Una vez visto el comando a ejecutar, comprobemos su funcionamiento en la siguiente captura de pantalla. En ella podemos apreciar cómo cambia el contenido del fichero ```index.html``` en la máquina 2, pasando a tener el contenido del fichero con mismo nombre en la máquina 1:
 
-![2ClonadoRsync](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/2ClonadoRsync.png)
+![ClonadoRsync](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/ClonadoRsync.png)
 
 
 ### 3 - Configuración de SSH para acceso sin contraseña
@@ -37,3 +41,6 @@ Y eso es todo. Como hemos realizado esta configuración desde el usuario root, a
 
 
 ### 4 - Mantenimiento actualizado de /var/www con crontab
+En este caso, para mantener sincronizada la máquina 2 con respecto al servidor principal, añadiremos una nueva línea al archivo ```/etc/crontab``` con el siguiente contenido:
+
+![ArchivoCrontab.png](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica2/images/ArchivoCrontab.png)
