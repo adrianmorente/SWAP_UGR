@@ -25,6 +25,13 @@ Veamos, de la misma forma que en el caso anterior, la ejecución con haproxy:
 
 ### 3 - Medida de prestaciones con ```nginx``` y ```haproxy```
 
+Una vez tenemos ambas máquinas funcionando, pasamos a someterlas a una carga medianamente pesada de trabajo, que aun siendo ligera, nos da una idea del funcionamiento de nuestros balanceadores. Utilizaremos el benchmark propio de Apache (para Ubuntu, disponible en el paquete ```apache2-utils```). Aunque el documento de la práctica aporta un ejemplo de comando de ejecución de ```ab```, vemos rápidamente que la ejecución es inmediata y no nos da una gran idea del funcionamiento de la granja web, así que utilizaremos un mayor número de consultas (1 millón) y de hilos concurrentes (200):
+```bash
+ab -n 1000000 -c 200 http://192.168.X.Y
+```
+
 ![BenchmarkNginx](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica3/images/ab-nginx.png)
 
 ![BenchmarkHaproxy](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica3/images/ab-haproxy.png)
+
+Podemos apreciar que la diferencia de velocidad entre una alternativa y otra es de unos 4 segundos (para este caso) a favor de haproxy; lo que para este volumen de solicitudes HTTP no parece una diferencia demasiado relevante.
