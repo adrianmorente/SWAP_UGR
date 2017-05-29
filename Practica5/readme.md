@@ -26,7 +26,7 @@ La secuencia de comandos a seguir será la siguiente:
 mysql -u root -p
 mysql> FLUSH TABLES WITH READ LOCK;   #para bloquear la escritura en las tablas mientras son copiadas
 mysql> QUIT;
-mysqldumpl contactos -u root -p > /root/contactos.sql
+mysqldump contactos -u root -p > /root/contactos.sql
 mysql -u root -p
 mysql> UNLOCK TABLES;
 ```
@@ -35,8 +35,65 @@ mysql> UNLOCK TABLES;
 
 ### 3 - Restaurar dicha copia en la segunda máquina (clonado manual de la BD).
 
+Para finalizar con la parte relativa al clonado de la base de datos, tocará irse a la segunda máquina servidora, crear la base de datos de igual nombre que en la primera, e invocar el siguiente comando `scp` que será quien obtenga el archivo .sql de la primera máquina:
+
+```bash
+scp root@IP-MAQUINA1:/root/BASEDEDATOS.sql /root/
+```
+
+A continuación, bastará con volcar el contenido del archivo obtenido en la nueva base de datos previamente creada. Con esto bastará para tener la base de datos replicada en la segunda máquina. Veamos una captura con los pasos realizados:
+
 ![mysqldump-copied](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica5/images/mysqldump-copied.png)
 
 ### 4 - Realizar la configuración maestro-esclavo de los servidores MySQL para que la replicación de datos se realice automáticamente.
 
-![mysql-config](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica5/images/mysql-config.png)
+Para comenzar con esta configuración, empezaremos desde el lado del Maestro (máquina 1, en nuestro caso); y configuraremos en ambas partes el archivo `/etc/mysql/mysql.conf.d/mysqld.cnf` aplicando los cambios citados en el guión de la práctica:
+
+```bash
+...
+#bind-address 127.0.0.1
+log_error = /var/log/mysql/error.log
+server-id = 1
+log_bin = /var/log/mysql/bin.log
+...
+```
+
+Una vez modificados estos campos, reiniciamos el servicio `mysql` como ya sabemos, y pasamos a configurar la máquina esclava; que en este caso, seguirá la misma configuración del mismo fichero exceptuando el campo `server-id`, que tendrá valor ***2***.
+
+Una vez hecho esto, reiniciamos el servicio y volvemos a la máquina maestra, e introducimos los siguientes comandos en mysql:
+
+```mysql
+CREATE USER esclavo IDENTIFIED BY 'esclavo';
+GRANT REPLICATION SLAVE ON *.* TO 'esclavo'@'%' IDENTIFIED BY 'esclavo';
+FLUSH PRIVILEGES;
+FLUSH TABLES;
+FLUSH TABLES WITH READ LOCK;
+```
+
+Con estos comandos, estaremos creando el usuario esclavo con sus credenciales, además de recargar la información de tablas y privilegios, y bloqueando estas tablas ante nuevas escrituras (como ya hicimos antes). Además, ejecutamos el comando `SHOW MASTER STATUS;` para mostrar la información del maestro, tan necesaria para la configuración del esclavo:
+
+![mysql-master](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica5/images/mysql-master.png)
+
+Visto esto, rellenamos el siguiente comando con la información obtenida en esta última captura para configurar mysql en la parte de la máquina esclava, de forma que empiece a funcionar como tal:
+
+```mysql
+CHANGE MASTER TO MASTER_HOST='192.168.56.101', MASTER_USER='esclavo', MASTER_PASSWORD='esclavo', MASTER_LOG_FILE='bin.000001', MASTER_LOG_POS=980, MASTER_PORT=3306;
+```
+
+Una vez hecho esto, iniciamos la máquina en modo esclavo y mostramos su estado de configuración y ejecución para comprobar que todo está funcionando correctamente. Ésto lo hacemos con los siguientes comandos en mysql:
+
+```mysql
+START SLAVE;
+
+SHOW SLAVE STATUS\G
+```
+
+La última orden imprimirá diversas líneas de estado y configuración, pero la que nos interesa es la que comprende el campo ***"Seconds_Behind_Master"***, que nos garantiza que el servicio está funcionando correctamente si su valor es ***distinto de NULL***.
+
+En nuestro caso, como vemos en la siguiente captura, su valor es 0; por lo que el esclavo está funcionando correctamente y actualizando la base de datos con respecto a la máquina 1.
+
+![mysql-slave](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica5/images/mysql-slave.png)
+
+Para finalizar, veamos una muestra del replicado automático mediante conexión maestro-esclavo. Primero, mostramos los valores de la tabla DATOS en la máquina 2, a continuación insertamos una nueva línea desde la máquina 1; y vemos cómo se añade en la misma tabla de la máquina esclava:
+
+![mysql-master-slave](https://github.com/adrianmorente/SWAP_UGR/blob/master/Practica5/images/mysql-master-slave.png)
