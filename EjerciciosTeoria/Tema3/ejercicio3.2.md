@@ -20,3 +20,13 @@ $ iptables -A INPUT  -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --s
 ```
 
 ### 2. ***Filtrado y bloqueo de paquetes (Windows)***
+
+En cuanto a Windows, hablaremos de estas dos opciones:
+
++ ***Firewall nativo de Windows***: se trata de la herramienta gráfica integrada en el propio sistema operativo. Aunque no parece brindar demasiadas opciones, parecen suficientes para el bloqueo de tráfico proveniente de ciertas subredes completas o de direcciones IP (v4 o v6) concretas. Además, suele ser la herramienta preferida para filtrar y/o bloquear paquetes en Windows, ya que no requiere instalación aparte:
+
+![firewall-Windows](http://support.smartbear.com/support/media/images/support/kb/data/2010/6/10/Windows7Firewall.gif)
+
++ ***[TinyWall](http://tinywall.pados.hu/)***: se trata de una herramienta libre para controlar el avanzado firewall de los sistemas Windows más modernos. Se trata de un software ligero y básico, sin pop-ups y por tanto nada intrusivo. Es una herramienta fácil y no requiere de demasiados conocimientos para realizar un simple bloqueo de direcciones IP. No hace falta ni explicar lo intuitiva que es su interfaz:
+
+![tinywall-example](http://cdn1.portalprogramas.org/imagenes/programas/es/643/14643_2.jpg)
