@@ -15,7 +15,7 @@ $ iptables -P OUTPUT DROP   #rechazo de cualquier tipo de tráfico de salida
 $ iptables -A INPUT  -i lo -j ACCEPT    #se acepta el tráfico entrante por el interfaz loopback
 $ iptables -A OUTPUT -o lo -j ACCEPT    #se acepta el tráfico saliente por el interfaz loopback
 
-#se acepta tráfico entrante por el intefaz Ethernet mediante TCP, para los puertos 22, 80 y 443 para conexiones nuevas y/o establecidas
+#se acepta tráfico entrante por el interfaz Ethernet mediante TCP, para los puertos 22, 80 y 443 para conexiones nuevas y/o establecidas
 $ iptables -A INPUT  -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
 ```
 
@@ -27,6 +27,6 @@ En cuanto a Windows, hablaremos de estas dos opciones:
 
 ![firewall-Windows](http://support.smartbear.com/support/media/images/support/kb/data/2010/6/10/Windows7Firewall.gif)
 
-+ ***[TinyWall](http://tinywall.pados.hu/)***: se trata de una herramienta libre para controlar el avanzado firewall de los sistemas Windows más modernos. Se trata de un software ligero y básico, sin pop-ups y por tanto nada intrusivo. Es una herramienta fácil y no requiere de demasiados conocimientos para realizar un simple bloqueo de direcciones IP. No hace falta ni explicar lo intuitiva que es su interfaz:
++ ***TinyWall*** [tinywall.pados.hu](http://tinywall.pados.hu/): se trata de una herramienta libre para controlar el avanzado firewall de los sistemas Windows más modernos. Se trata de un software ligero y básico, sin pop-ups y por tanto nada intrusivo. Es una herramienta fácil y no requiere de demasiados conocimientos para realizar un simple bloqueo de direcciones IP. No hace falta ni explicar lo intuitiva que es su interfaz:
 
 ![tinywall-example](http://cdn1.portalprogramas.org/imagenes/programas/es/643/14643_2.jpg)
