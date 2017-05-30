@@ -38,4 +38,4 @@ Visto esto, podemos aplicar esta última fórmula para un valor **3** de replica
 | ISP         | 95%              | 99'75%           | 99'9875%         |
 | ***TOTAL*** | ***59'86%***     | ***94'3%***      | ***99'2135%***   |
 
-Para finalizar, vemos que la disponibilidad estimada equivale a ***99'2135%***.
+Para finalizar, vemos que la disponibilidad estimada equivale a **99'2135%**.
